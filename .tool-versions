@@ -1,0 +1,7 @@
+terraform      1.13.0
+golang         1.25.0
+ripgrep        13.0.0
+tflint         0.59.1
+github-cli     2.78.0
+fd             10.3.0
+terraform-docs 0.20.0

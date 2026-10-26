@@ -1,5 +1,9 @@
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfplan
-crash.log
+.terraform
+.DS_Store
+target
+CHANGELOG.md
+*.tfstate*
+*.tfstate.backup
+.idea/
+.vscode/
+*.log

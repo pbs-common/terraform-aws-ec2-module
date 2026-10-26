@@ -1,0 +1,25 @@
+name: Lint
+
+on:
+  pull_request:
+    # Run linter when PRs opened or updated
+    types: [opened, synchronize]
+    branches:
+      - main
+concurrency: lint-${{ github.base_ref }}
+jobs:
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
+      - name: Setup mise
+        uses: jdx/mise-action@v4
+
+      - name: "Lint"
+        run: ./scripts/lint.sh

@@ -1,10 +1,10 @@
 variable "environment" {
-  description = "Environment (sharedtools, dev, staging, qa, prod)"
+  description = "Environment (sharedtools, dev, staging, prod)"
   type        = string
   default     = "sharedtools"
   validation {
-    condition     = contains(["sharedtools", "dev", "staging", "qa", "prod"], var.environment)
-    error_message = "The environment variable must be one of [sharedtools, dev, staging, qa, prod]."
+    condition     = contains(["sharedtools", "dev", "staging", "prod"], var.environment)
+    error_message = "The environment variable must be one of [sharedtools, dev, staging, prod]."
   }
 }
 

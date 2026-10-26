@@ -79,7 +79,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.70.0 |
 
 ## Modules
 
@@ -143,12 +143,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch. Deliberately has no default: a floating latest AMI would replace the instance on the next apply after every AMI release | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment (sharedtools, dev, staging, qa, prod) | `string` | n/a | yes |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type. Deliberately has no default: size it for the workload | `string` | n/a | yes |
+| <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
+| <a name="input_owner"></a> [owner](#input\_owner) | Tag used to group resources according to product | `string` | n/a | yes |
+| <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
+| <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | (optional) ARN of the ACM certificate for the HTTPS listener. If null and hosted\_zone is set on a public load balancer, the wildcard certificate of the hosted zone is looked up. If still null, only an HTTP listener is created | `string` | `null` | no |
 | <a name="input_additional_ebs_volumes"></a> [additional\_ebs\_volumes](#input\_additional\_ebs\_volumes) | (optional) Extra EBS volumes keyed by a short name (used in the Name tag). Set volume\_id to attach an existing volume instead of creating one, snapshot\_id to restore from a snapshot. Volumes are always attached with a separate attachment so they survive instance replacement | <pre>map(object({<br/>    device_name    = string<br/>    size           = optional(number)<br/>    type           = optional(string, "gp3")<br/>    iops           = optional(number)<br/>    throughput     = optional(number)<br/>    encrypted      = optional(bool, true)<br/>    kms_key_id     = optional(string)<br/>    snapshot_id    = optional(string)<br/>    volume_id      = optional(string)<br/>    final_snapshot = optional(bool, true)<br/>  }))</pre> | `{}` | no |
 | <a name="input_alb_ssl_policy"></a> [alb\_ssl\_policy](#input\_alb\_ssl\_policy) | (optional) SSL policy to use for the HTTPS listener. | `string` | `"ELBSecurityPolicy-TLS13-1-2-2021-06"` | no |
 | <a name="input_aliases"></a> [aliases](#input\_aliases) | (optional) CNAME(s) that are allowed to be used for this instance, matched as host headers by the listener rules. Default is `name`.`hosted_zone` when hosted\_zone is set. e.g. [name.example.com] | `list(string)` | `null` | no |
 | <a name="input_allow_all_egress"></a> [allow\_all\_egress](#input\_allow\_all\_egress) | (optional) Allow all outbound traffic from the module-created instance security group | `bool` | `true` | no |
-| <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id) | AMI to launch. Deliberately has no default: a floating latest AMI would replace the instance on the next apply after every AMI release | `string` | n/a | yes |
 | <a name="input_app_port"></a> [app\_port](#input\_app\_port) | (optional) Port the application listens on inside the instance. The load balancer forwards to it and the instance security group allows the load balancer on it | `number` | `80` | no |
 | <a name="input_app_protocol"></a> [app\_protocol](#input\_app\_protocol) | (optional) Protocol the load balancer uses to talk to the application: HTTP or HTTPS | `string` | `"HTTP"` | no |
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | (optional) Associate a public IPv4 address with the instance | `bool` | `false` | no |
@@ -167,7 +173,6 @@ No modules.
 | <a name="input_enable_cloudwatch_agent"></a> [enable\_cloudwatch\_agent](#input\_enable\_cloudwatch\_agent) | (optional) Attach CloudWatchAgentServerPolicy to the instance role | `bool` | `false` | no |
 | <a name="input_enable_deletion_protection"></a> [enable\_deletion\_protection](#input\_enable\_deletion\_protection) | (optional) Protect the load balancer from deletion. On by default: set to false before destroying the load balancer | `bool` | `true` | no |
 | <a name="input_enable_ssm"></a> [enable\_ssm](#input\_enable\_ssm) | (optional) Attach AmazonSSMManagedInstanceCore so the instance works with Session Manager and Patch Manager | `bool` | `true` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment (sharedtools, dev, staging, qa, prod) | `string` | n/a | yes |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | (optional) Plain environment variables written to /etc/pbs/app.env (root-only, mode 0600) at first boot. Values appear in user data and Terraform state: use secrets for anything sensitive. Single-line values only | `map(string)` | `{}` | no |
 | <a name="input_extra_acm_arns"></a> [extra\_acm\_arns](#input\_extra\_acm\_arns) | (optional) List of additional ACM certificate ARNs to attach to the HTTPS listener. | `list(string)` | `[]` | no |
 | <a name="input_extra_lb_security_group_ids"></a> [extra\_lb\_security\_group\_ids](#input\_extra\_lb\_security\_group\_ids) | (optional) List of additional security group IDs to attach to the load balancer, alongside the module-managed load balancer security group. Ignored when no load balancer is created. | `list(string)` | `[]` | no |
@@ -192,7 +197,6 @@ No modules.
 | <a name="input_imds_http_tokens"></a> [imds\_http\_tokens](#input\_imds\_http\_tokens) | (optional) Instance metadata service version: required enforces IMDSv2 (PBS standard) | `string` | `"required"` | no |
 | <a name="input_instance_initiated_shutdown_behavior"></a> [instance\_initiated\_shutdown\_behavior](#input\_instance\_initiated\_shutdown\_behavior) | (optional) What happens when the OS shuts down: stop or terminate | `string` | `"stop"` | no |
 | <a name="input_instance_subnet_scheme"></a> [instance\_subnet\_scheme](#input\_instance\_subnet\_scheme) | (optional) Subnet placement when subnet\_id is null. "private" (default) uses *-private-* subnets, "public" uses *-public-* subnets | `string` | `"private"` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type. Deliberately has no default: size it for the workload | `string` | n/a | yes |
 | <a name="input_internal"></a> [internal](#input\_internal) | (optional) Use an internal load balancer. If null, will be internal when lb\_scheme is internal. | `bool` | `null` | no |
 | <a name="input_is_hosted_zone_private"></a> [is\_hosted\_zone\_private](#input\_is\_hosted\_zone\_private) | (optional) Is the route53 zone private or not. | `bool` | `false` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | (optional) Name of an existing EC2 key pair. Leave null and use SSM Session Manager where possible | `string` | `null` | no |
@@ -212,13 +216,9 @@ No modules.
 | <a name="input_load_balancer_sg_name"></a> [load\_balancer\_sg\_name](#input\_load\_balancer\_sg\_name) | (optional) Name of the load balancer security group. Used as a prefix unless `use_sg_name_prefix` is false. If null, will use `${local.load_balancer_name}-lb-sg-` (prefix) or `${local.load_balancer_name}-lb-sg` (exact name). | `string` | `null` | no |
 | <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | (optional) Enable detailed (1 minute) CloudWatch monitoring | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | (optional) Name of the instance and prefix for related resources (defaults to product if null) | `string` | `null` | no |
-| <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
-| <a name="input_owner"></a> [owner](#input\_owner) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_private_ip"></a> [private\_ip](#input\_private\_ip) | (optional) Fixed private IPv4 address inside the subnet. Null lets AWS choose | `string` | `null` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | (optional) Private subnets for an internal load balancer (at least two availability zones). If null, they are looked up in the VPC by name (*-private-*). Not used for the instance: see subnet\_id | `list(string)` | `null` | no |
-| <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | (optional) Public subnets for an internet-facing load balancer (at least two availability zones). If null, they are looked up in the VPC by name (*-public-*). Not used for the instance: see subnet\_id | `list(string)` | `null` | no |
-| <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
 | <a name="input_restricted_sg"></a> [restricted\_sg](#input\_restricted\_sg) | (optional) SG allowed to reach the load balancer, in addition to lb\_ingress\_cidr\_blocks. If null, no sg will be configured to connect | `string` | `null` | no |
 | <a name="input_root_volume"></a> [root\_volume](#input\_root\_volume) | (optional) Root EBS volume settings. Encrypted by default (PBS standard); set encrypted = false only to mirror an existing unencrypted volume | <pre>object({<br/>    size                  = optional(number, 30)<br/>    type                  = optional(string, "gp3")<br/>    iops                  = optional(number)<br/>    throughput            = optional(number)<br/>    encrypted             = optional(bool, true)<br/>    kms_key_id            = optional(string)<br/>    delete_on_termination = optional(bool, true)<br/>  })</pre> | `{}` | no |
 | <a name="input_route_priority"></a> [route\_priority](#input\_route\_priority) | (optional) Starting route priority, incremented by each listener rule | `number` | `10` | no |

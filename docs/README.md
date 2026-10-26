@@ -1,5 +1,9 @@
 # Documentation
 
-- [Module documentation](./module)
-  - [Existing instances](./module/existing-instances.md): recreating hand-built EC2 instances with this module
-- [General documentation](./general): installation, development and tests (copy from `pbs/terraform-aws-template`)
+Most of this documentation is boilerplate pulled from [terraform-aws-template][terraform-aws-template].
+
+Any documentation that is pertinent to this module exclusively will end up in [module](./module).
+
+General documentation on usage of TF modules can be found [here](./general).
+
+[terraform-aws-template]: https://github.com/pbs/terraform-aws-template

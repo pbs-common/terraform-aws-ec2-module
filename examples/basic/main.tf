@@ -1,4 +1,4 @@
-# Only the required inputs: the VPC is looked up from the environment tag and the instance
+# Only the required inputs (plus the protection toggle): the VPC is looked up from the environment tag and the instance
 # lands in a private subnet, exactly like the ECS service module's lookups.
 module "ec2" {
   source = "../.."
@@ -13,15 +13,8 @@ module "ec2" {
   product      = var.product
   owner        = var.owner
   repo         = var.repo
-}
 
-variable "instance_type" {
-  description = "Instance type"
-  type        = string
-  default     = "t3.small"
-}
-
-variable "ami_id" {
-  description = "AMI to launch"
-  type        = string
+  # Optional Parameters
+  # Protection is on by default; the toggle lets tests and sandboxes destroy what they create
+  disable_api_termination = var.deletion_protection
 }
